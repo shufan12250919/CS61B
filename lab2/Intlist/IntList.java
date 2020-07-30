@@ -99,6 +99,7 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
+        //handle when A is null
         if (A == null) {
             return B;
         }
