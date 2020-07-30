@@ -2,6 +2,17 @@
  *  @author YOUR NAME HERE
  */
 public class LeapYear {
+    /** Check if the number 
+        1.  is divisible by 400 
+        2.  is divisible by 4 but not 100
+        For example, 2000 and 2004 are leap years. 
+        1900, 2003, and 2100 are not leap years.
+     */
+    public static boolean isLeapYear(int year){
+        if(year % 400 == 0) return true;
+        if(year % 4 == 0 && year % 100 != 0) return true;
+        return false;
+    }
 
     /** Calls isLeapYear to print correct statement.
      *  @param  year to be analyzed
