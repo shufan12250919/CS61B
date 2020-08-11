@@ -7,6 +7,7 @@ public class MyArrayDequeTest {
         }
         deque.printDeque();
         deque.printall();
+        System.out.println(deque.get(1));
         System.out.println("Test completed!");
     }
 }
