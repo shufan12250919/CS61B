@@ -1,0 +1,103 @@
+public class LinkedListDeque<T> {
+
+    private class Node {
+        private T data;
+        private Node prev;
+        private Node next;
+
+        Node(T d, Node l, Node r) {
+            data = d;
+            prev = l;
+            next = r;
+        }
+
+        void setPrev(Node l) {
+            prev = l;
+        }
+
+        void setNext(Node r) {
+            next = r;
+        }
+    }
+
+    private Node sentinel;
+    private int elements;
+
+    public LinkedListDeque() {
+        elements = 0;
+        sentinel = new Node(null, null, null);
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+    }
+
+    public void addFirst(T item) {
+        sentinel.next = new Node(item, sentinel, sentinel.next);
+        elements++;
+    }
+
+    public void addLast(T item) {
+        sentinel.prev = new Node(item, sentinel.prev, sentinel);
+        elements++;
+    }
+
+    public boolean isEmpty() {
+        return sentinel.prev == sentinel && sentinel.next == sentinel;
+    }
+
+    public int size() {
+        return elements;
+    }
+
+    public void printDeque() {
+        Node cur = sentinel.next;
+        while (cur != sentinel) {
+            System.out.print(cur.data + " ");
+            cur = cur.next;
+        }
+    }
+
+    public T removeFirst() {
+        if (isEmpty()) return null;
+        Node temp = sentinel.next;
+        sentinel.next = temp.next;
+        sentinel.next.prev = sentinel;
+        elements--;
+        return temp.data;
+
+    }
+
+    public T removeLast() {
+        if (isEmpty()) return null;
+        Node temp = sentinel.prev;
+        sentinel.prev = temp.prev;
+        sentinel.prev.next = sentinel;
+        elements--;
+        return temp.data;
+    }
+
+    public T get(int index) {
+        Node cur = sentinel.next;
+        for (int i = 0; i <= index; i++) {
+            if (cur == sentinel) return null;
+            cur = cur.next;
+        }
+        return cur.data;
+    }
+
+    public T getRecursive(int index) {
+        if (isEmpty()) return null;
+        Node target = getNode(index, sentinel.next);
+        if (target != null) {
+            return target.data;
+        }
+        return null;
+    }
+
+    private Node getNode(int index, Node cur) {
+        if (index == 0) return cur;
+        if (cur == null) return null;
+        index--;
+        return getNode(index, cur.next);
+    }
+
+}
