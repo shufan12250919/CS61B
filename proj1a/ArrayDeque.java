@@ -103,14 +103,11 @@ public class ArrayDeque<T> {
         System.out.println();
     }
 
-    public void printall() {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.println(i + ": " + arr[i]);
-        }
-    }
 
     public T removeFirst() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         size--;
         if (first == arr.length - 1) {
             first = 0;
@@ -123,7 +120,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         size--;
         if (last != 0) {
             last--;

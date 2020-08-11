@@ -31,12 +31,16 @@ public class LinkedListDeque<T> {
     }
 
     public void addFirst(T item) {
-        sentinel.next = new Node(item, sentinel, sentinel.next);
+        Node temp = new Node(item, sentinel, sentinel.next);
+        sentinel.next.setPrev(temp);
+        sentinel.setNext(temp);
         elements++;
     }
 
     public void addLast(T item) {
-        sentinel.prev = new Node(item, sentinel.prev, sentinel);
+        Node temp = new Node(item, sentinel.prev, sentinel);
+        sentinel.prev.setNext(temp);
+        sentinel.setPrev(temp);
         elements++;
     }
 
@@ -57,7 +61,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         Node temp = sentinel.next;
         sentinel.next = temp.next;
         sentinel.next.prev = sentinel;
@@ -67,7 +73,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         Node temp = sentinel.prev;
         sentinel.prev = temp.prev;
         sentinel.prev.next = sentinel;
@@ -78,14 +86,18 @@ public class LinkedListDeque<T> {
     public T get(int index) {
         Node cur = sentinel.next;
         for (int i = 0; i <= index; i++) {
-            if (cur == sentinel) return null;
+            if (cur == sentinel) {
+                return null;
+            }
             cur = cur.next;
         }
         return cur.data;
     }
 
     public T getRecursive(int index) {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         Node target = getNode(index, sentinel.next);
         if (target != null) {
             return target.data;
@@ -94,8 +106,12 @@ public class LinkedListDeque<T> {
     }
 
     private Node getNode(int index, Node cur) {
-        if (index == 0) return cur;
-        if (cur == null) return null;
+        if (index == 0) {
+            return cur;
+        }
+        if (cur == null) {
+            return null;
+        }
         index--;
         return getNode(index, cur.next);
     }
