@@ -141,7 +141,13 @@ public class ArrayDeque<T> {
 
     private void removal() {
         if (arr.length > 8 && size <= arr.length * 1 / 4) {
-            T[] smaller = (T[]) new Object[arr.length * 1 / 2];
+            T[] smaller = (T[]) new Object[arr.length * 1 / 4];
+            if (first + size() <= arr.length) {
+                System.arraycopy(arr, first + 1, smaller, 0, size);
+                first = smaller.length - 1;
+                last = 0;
+                return;
+            }
             int half = arr.length - 1 - first;
             System.arraycopy(arr, first + 1, smaller, 0, half);
             System.arraycopy(arr, 0, smaller, half, size - half);
