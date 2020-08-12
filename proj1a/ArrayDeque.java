@@ -41,13 +41,16 @@ public class ArrayDeque<T> {
             if (first == arr.length - 1) {
                 System.arraycopy(arr, 0, bigger, 0, size);
                 first = bigger.length - 1;
+                last = size;
             } else {
                 int index = first + 1;
                 int half = arr.length - index;
                 System.arraycopy(arr, 0, bigger, 0, size - half);
                 System.arraycopy(arr, index, bigger, bigger.length - half, half);
                 first = bigger.length - half - 1;
+                last = size - half;
             }
+
 
             arr = bigger;
         }
