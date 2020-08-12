@@ -111,12 +111,11 @@ public class ArrayDeque<T> {
         size--;
         if (first == arr.length - 1) {
             first = 0;
-            return arr[0];
         } else {
-            T temp = arr[first - 1];
+            T temp = arr[first + 1];
             first++;
-            return temp;
         }
+        return arr[first];
     }
 
     public T removeLast() {
@@ -126,11 +125,10 @@ public class ArrayDeque<T> {
         size--;
         if (last != 0) {
             last--;
-            return arr[last];
         } else {
             last = arr.length - 1;
-            return arr[last];
         }
+        return arr[last];
     }
 
     public T get(int index) {
