@@ -111,8 +111,10 @@ public class ArrayDeque<T> {
         if (first == arr.length - 1) {
             first = 0;
         } else {
-            T temp = arr[first + 1];
             first++;
+        }
+        if (size == 0) {
+            first = last;
         }
         return arr[first];
     }
@@ -127,6 +129,9 @@ public class ArrayDeque<T> {
             last--;
         } else {
             last = arr.length - 1;
+        }
+        if (size == 0) {
+            first = last;
         }
         return arr[last];
     }
@@ -146,7 +151,7 @@ public class ArrayDeque<T> {
     public T get(int index) {
 
         int cur = first + 1;
-        return arr[(cur + index) % (arr.length - 1)];
+        return arr[(cur + index) % arr.length];
     }
 
 
