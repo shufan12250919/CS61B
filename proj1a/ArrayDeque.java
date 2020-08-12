@@ -152,6 +152,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+        if (index >= size() || index < 0) {
+            return null;
+        }
 
         int cur = first + 1;
         return arr[(cur + index) % arr.length];
