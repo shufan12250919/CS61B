@@ -146,6 +146,7 @@ public class ArrayDeque<T> {
                 System.arraycopy(arr, first + 1, smaller, 0, size);
                 first = smaller.length - 1;
                 last = 0;
+                arr = smaller;
                 return;
             }
             int half = arr.length - 1 - first;
