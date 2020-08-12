@@ -85,7 +85,7 @@ public class LinkedListDeque<T> {
 
     public T get(int index) {
         Node cur = sentinel.next;
-        for (int i = 0; i <= index; i++) {
+        for (int i = 0; i < index; i++) {
             if (cur == sentinel) {
                 return null;
             }
