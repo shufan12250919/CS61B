@@ -41,14 +41,12 @@ public class ArrayDeque<T> {
             if (first == arr.length - 1) {
                 System.arraycopy(arr, 0, bigger, 0, size);
                 first = bigger.length - 1;
-                last = size;
             } else {
                 int index = first + 1;
                 int half = arr.length - index;
                 System.arraycopy(arr, 0, bigger, 0, size - half);
                 System.arraycopy(arr, index, bigger, bigger.length - half, half);
                 first = bigger.length - half - 1;
-                last = size;
             }
 
             arr = bigger;
@@ -108,6 +106,7 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
+        removal();
         size--;
         if (first == arr.length - 1) {
             first = 0;
@@ -122,6 +121,7 @@ public class ArrayDeque<T> {
         if (isEmpty()) {
             return null;
         }
+        removal();
         size--;
         if (last != 0) {
             last--;
@@ -131,10 +131,22 @@ public class ArrayDeque<T> {
         return arr[last];
     }
 
+    private void removal() {
+        if (arr.length > 8 && size <= arr.length * 1 / 4) {
+            T[] smaller = (T[]) new Object[arr.length * 1 / 4];
+            int half = arr.length - 1 - first;
+            System.arraycopy(arr, first + 1, smaller, 0, half);
+            System.arraycopy(arr, 0, smaller, half, size - half);
+            first = smaller.length - 1;
+            last = size;
+            arr = smaller;
+        }
+    }
+
     public T get(int index) {
 
         int cur = first + 1;
-        return arr[(cur + index) % arr.length];
+        return arr[(cur + index) % (arr.length - 1)];
     }
 
 
