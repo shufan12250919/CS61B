@@ -114,7 +114,7 @@ public class ArrayDeque<T> {
             first++;
         }
         if (size == 0) {
-            first = last;
+            last = first;
         }
         return arr[first];
     }
