@@ -25,22 +25,24 @@ public class TestArrayDequeGold {
     }
 
     private void removeFirst(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a, String m) {
-        if (s.size() >= 1 && a.size() >= 1) {
-            int expected = a.removeFirst();
-            int actual = s.removeFirst();
-            m = m + "removeFirst()\n";
-            assertEquals(m, expected, actual);
+        Integer expected = a.removeFirst();
+        Integer actual = s.removeFirst();
+        if (expected == null || actual == null) {
+            return;
         }
+        m = m + "removeFirst()\n";
+        assertEquals(m, expected, actual);
 
     }
 
     private void removeLast(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a, String m) {
-        if (s.size() >= 1 && a.size() >= 1) {
-            int expected = a.removeLast();
-            int actual = s.removeLast();
-            m = m + "removeLast()\n";
-            assertEquals(m, expected, actual);
+        Integer expected = a.removeLast();
+        Integer actual = s.removeLast();
+        if (expected == null || actual == null) {
+            return;
         }
+        m = m + "removeLast()\n";
+        assertEquals(m, expected, actual);
     }
 
     private void addFirst(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a, String m) {
