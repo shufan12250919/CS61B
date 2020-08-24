@@ -44,14 +44,14 @@ public class TestArrayDequeGold {
     }
 
     private void addFirst(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a, String m) {
-        int num = StdRandom.uniform(-100, 100);
+        int num = StdRandom.uniform(0, 100);
         s.addFirst(num);
         a.addFirst(num);
         m = m + "addFirst(" + num + ")\n";
     }
 
     private void addLast(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a, String m) {
-        int num = StdRandom.uniform(-100, 100);
+        int num = StdRandom.uniform(0, 100);
         s.addLast(num);
         a.addLast(num);
         m = m + "addLast(" + num + ")\n";
