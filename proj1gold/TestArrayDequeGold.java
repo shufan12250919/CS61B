@@ -3,56 +3,63 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class TestArrayDequeGold {
+    private static String message = "";
 
     @Test
-    public void testSad() {
-        StudentArrayDeque<Integer> sad = new StudentArrayDeque<>();
-        ArrayDequeSolution<Integer> ans = new ArrayDequeSolution<>();
+    public void test() {
+        StudentArrayDeque<Integer> student = new StudentArrayDeque<>();
+        ArrayDequeSolution<Integer> answer = new ArrayDequeSolution<>();
 
-        String output = "";
-
-        int count = 0;
-        while (true) {
-            double randNum = StdRandom.uniform();
-
-            if (randNum < 0.25) {
-                sad.addFirst(count);
-                ans.addFirst(count);
-                // Integer actual = sad.get(0);
-                // Integer expected = ans.get(0);
-                output += "\naddFirst(" + count + ")";
-                // assertEquals(output, expected, actual);
-
-            } else if (randNum < 0.5) {
-                sad.addLast(count);
-                ans.addLast(count);
-                // Integer actual = sad.get(sad.size() - 1);
-                // Integer expected = ans.get(sad.size() - 1);
-                output += "\naddLast(" + count + ")";
-                // assertEquals(output, expected, actual);
-
-            } else if (randNum < 0.75) {
-                Integer actual = sad.removeFirst();
-                Integer expected = ans.removeFirst();
-                if (actual == null || expected == null) {
-                    continue;
-                }
-                output += "\nremoveFirst()";
-                assertEquals(output, expected, actual);
-
+        for (int i = 0; i < 1000; i++) {
+            double type = StdRandom.uniform();
+            if (type < 0.25) {
+                removeFirst(student, answer);
+            } else if (type < 0.5) {
+                removeLast(student, answer);
+            } else if (type < 0.75) {
+                addFirst(student, answer);
             } else {
-                Integer actual = sad.removeLast();
-                Integer expected = ans.removeLast();
-                if (actual == null || expected == null) {
-                    continue;
-                }
-                output += "\nremoveLast()";
-                assertEquals(output, expected, actual);
+                addLast(student, answer);
             }
-
-            count += 1;
         }
 
+
     }
+
+    private void removeFirst(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a) {
+        Integer expected = a.removeFirst();
+        Integer actual = s.removeFirst();
+        if (expected == null || actual == null) {
+            return;
+        }
+        message = message + "\nremoveFirst()";
+        assertEquals(message, expected, actual);
+
+    }
+
+    private void removeLast(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a) {
+        Integer expected = a.removeLast();
+        Integer actual = s.removeLast();
+        if (expected == null || actual == null) {
+            return;
+        }
+        message = message + "\nremoveLast()";
+        assertEquals(message, expected, actual);
+    }
+
+    private void addFirst(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a) {
+        int num = StdRandom.uniform(0, 100);
+        s.addFirst(num);
+        a.addFirst(num);
+        message = message + "\naddFirst(" + num + ")";
+    }
+
+    private void addLast(StudentArrayDeque<Integer> s, ArrayDequeSolution<Integer> a) {
+        int num = StdRandom.uniform(0, 100);
+        s.addLast(num);
+        a.addLast(num);
+        message = message + "\naddLast(" + num + ")";
+    }
+
 
 }
