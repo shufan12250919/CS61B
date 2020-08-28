@@ -16,9 +16,9 @@ public abstract class AbstractBoundedQueue<T> implements BoundedQueue<T> {
 
     //public boolean isFull()
 
-    public abstract T peek();
+    //public abstract T peek();
 
-    public abstract T dequeue();
+    //public abstract T dequeue();
 
-    public abstract void enqueue(T x);
+    //public abstract void enqueue(T x);
 }
