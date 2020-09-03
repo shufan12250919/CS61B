@@ -13,13 +13,15 @@ public class Room {
     private int xRL;    // x's right left position
     private int yRL;    // y's right left position
     private ArrayList<Position> spcae;
+    private Random r;
 
-    public Room(TETile[][] t, int xlen, int ylen, int xRL, int yRL) {
+    public Room(TETile[][] t, int xlen, int ylen, int xRL, int yRL, Random random) {
         tiles = t;
         this.xlen = xlen;
         this.ylen = ylen;
         this.xRL = xRL;
         this.yRL = yRL;
+        r = random;
         buildRoom();
     }
 
@@ -33,7 +35,6 @@ public class Room {
     }
 
     public Position pickRandomPosition() {
-        Random r = new Random();
         int x = r.nextInt(xlen) + xRL;
         int y = r.nextInt(ylen) + yRL;
         return new Position(tiles, x, y);

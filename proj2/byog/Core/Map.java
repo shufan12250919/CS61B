@@ -63,7 +63,7 @@ public class Map {
                 ylen--;
             }
 
-            Room r = new Room(tiles, xlen, ylen, x, y);
+            Room r = new Room(tiles, xlen, ylen, x, y, random);
             rooms.add(r);
         }
     }
