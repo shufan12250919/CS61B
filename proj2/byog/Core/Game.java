@@ -31,10 +31,16 @@ public class Game {
      * @return the 2D TETile[][] representing the state of the world
      */
     public TETile[][] playWithInputString(String input) {
-        // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        int seed = Integer.parseInt(input.substring(1));
+        long seed = 0;
+        input = input.substring(0, input.length() - 1);
+        if (input.charAt(0) != 'N') {
+            seed = Long.parseLong(input);
+        } else {
+            seed = Long.parseLong(input.substring(1));
+        }
+
         Random r = new Random(seed);
         int w = r.nextInt(30) + 30;
         int h = r.nextInt(30) + 30;
