@@ -45,7 +45,7 @@ public class Game {
         int w = r.nextInt(30) + 30;
         int h = r.nextInt(30) + 30;
         Map map = new Map(w, h, r);
-        map.present();
+        //map.present();
         TETile[][] finalWorldFrame = map.getTiles();
         return finalWorldFrame;
     }
