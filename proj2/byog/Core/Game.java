@@ -35,10 +35,10 @@ public class Game {
         // drawn if the same inputs had been given to playWithKeyboard().
         long seed = 0;
         input = input.substring(0, input.length() - 1);
-        if (input.charAt(0) != 'N') {
-            seed = Long.parseLong(input);
-        } else {
+        if (input.charAt(0) == 'N' || input.charAt(0) == 'n') {
             seed = Long.parseLong(input.substring(1));
+        } else {
+            seed = Long.parseLong(input);
         }
 
         Random r = new Random(seed);
