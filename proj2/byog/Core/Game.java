@@ -34,11 +34,12 @@ public class Game {
         // TODO: Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        Random r = new Random();
+        int seed = Integer.parseInt(input.substring(1));
+        Random r = new Random(seed);
         int w = r.nextInt(30) + 30;
         int h = r.nextInt(30) + 30;
         Map map = new Map(w, h, r);
-        map.present();
+        //map.present();
         TETile[][] finalWorldFrame = map.getTiles();
         return finalWorldFrame;
     }
