@@ -8,13 +8,17 @@ import java.util.Random;
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 80;
-    public static final int HEIGHT = 30;
+    public static final int WIDTH = 50;
+    public static final int HEIGHT = 50;
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() {
+        Random r = new Random(204);
+        GameUI ui = new GameUI(WIDTH, HEIGHT, ter, r);
+        ui.start();
+
     }
 
     /**
@@ -42,9 +46,9 @@ public class Game {
         }
 
         Random r = new Random(seed);
-        int w = r.nextInt(30) + 30;
-        int h = r.nextInt(30) + 30;
-        Map map = new Map(w, h, r);
+        //int w = r.nextInt(30) + 25;
+        //int h = r.nextInt(30) + 25;
+        Map map = new Map(WIDTH, HEIGHT, r);
         //map.present();
         TETile[][] finalWorldFrame = map.getTiles();
         return finalWorldFrame;

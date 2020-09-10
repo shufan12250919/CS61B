@@ -13,6 +13,8 @@ public class Map {
     private TETile[][] tiles;
     private Random random;
     private ArrayList<Room> rooms;
+    private Position player;
+
 
     public Map(int w, int h, Random r) {
         random = r;
@@ -25,6 +27,7 @@ public class Map {
         buildHallWay();
         buildWall();
         buildGold();
+        buildPlayer();
     }
 
     public TETile[][] getTiles() {
@@ -191,6 +194,15 @@ public class Map {
         TERenderer ter = new TERenderer();
         ter.initialize(width, height);
         ter.renderFrame(tiles);
+    }
+
+    private void buildPlayer() {
+        int roomNum = random.nextInt(rooms.size() - 1);
+        Room r = rooms.get(roomNum);
+        player = r.pickRandomPosition();
+        int x = player.getXpos();
+        int y = player.getYpos();
+        tiles[x][y] = Tileset.PLAYER;
     }
 
 
