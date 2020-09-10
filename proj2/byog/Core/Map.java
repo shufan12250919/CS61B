@@ -162,7 +162,29 @@ public class Map {
                 y--;
             }
         }
-        tiles[x][y] = Tileset.LOCKED_DOOR;
+        if (checkGold(x, y)) {
+            tiles[x][y] = Tileset.LOCKED_DOOR;
+        } else {
+            buildGold();
+        }
+
+    }
+
+    private boolean checkGold(int x, int y) {
+        if (x - 1 >= 0 && tiles[x - 1][y] == Tileset.NOTHING) {
+            return true;
+        }
+        if (x + 1 <= width - 1 && tiles[x + 1][y] == Tileset.NOTHING) {
+            return true;
+        }
+        if (y - 1 >= 0 && tiles[x][y - 1] == Tileset.NOTHING) {
+            return true;
+        }
+        if (y + 1 <= height - 1 && tiles[x][y + 1] == Tileset.NOTHING) {
+            return true;
+        }
+        return false;
+
     }
 
     public void present() {
