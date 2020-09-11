@@ -48,7 +48,7 @@ public class Game {
             Map map = new Map(WIDTH, HEIGHT, r);
             Play play = new Play(map, WIDTH, HEIGHT, 4, ter);
             play.startWithCommand(action);
-            map.present();
+            //map.present();
             if (command.getStore()) {
                 play.serialize();
             }
@@ -58,7 +58,7 @@ public class Game {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("game.txt")));
                 Play play = (Play) ois.readObject();
                 play.startWithCommand(action);
-                play.getMap().present();
+                //play.getMap().present();
                 if (command.getStore()) {
                     play.serialize();
                 }
