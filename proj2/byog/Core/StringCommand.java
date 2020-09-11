@@ -31,8 +31,8 @@ public class StringCommand {
 
     //check for Start new Game or Load game
     private void checkLoadOrNew(String s) {
-        char fisrt = s.charAt(0);
-        if (fisrt == 'N') {
+        char first = s.charAt(0);
+        if (first == 'N' || first == 'n') {
             load = false;
         } else {
             load = true;
@@ -46,8 +46,8 @@ public class StringCommand {
             long tempSeed = 0L;
             for (int i = 1; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if (c == 'S') {
-                    return;
+                if (c == 'S' || c == 's') {
+                    break;
                 }
                 tempSeed = tempSeed * 10 + Long.parseLong(s.substring(i, i + 1));
                 actionIndex = i + 1;
