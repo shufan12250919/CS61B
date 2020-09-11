@@ -69,9 +69,8 @@ public class Game {
                 }
                 return play.getMap().getTiles();
             } catch (ClassNotFoundException | IOException e) {
-                System.exit(0);
+                return new TETile[0][0];
             }
         }
-        return null;
     }
 }
