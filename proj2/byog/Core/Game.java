@@ -5,6 +5,7 @@ import byog.TileEngine.TETile;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Random;
 
@@ -67,7 +68,7 @@ public class Game {
                     play.serialize();
                 }
                 return play.getMap().getTiles();
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | IOException e) {
                 return null;
             }
         }

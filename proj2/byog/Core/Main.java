@@ -15,6 +15,9 @@ public class Main {
         } else if (args.length == 1) {
             Game game = new Game();
             TETile[][] worldState = game.playWithInputString(args[0]);
+            if (worldState == null) {
+                return;
+            }
             System.out.println(TETile.toString(worldState));
         } else {
             Game game = new Game();
