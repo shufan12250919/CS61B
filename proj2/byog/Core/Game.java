@@ -68,9 +68,8 @@ public class Game {
                 }
                 return play.getMap().getTiles();
             } catch (Exception e) {
-                System.exit(0);
+                return null;
             }
         }
-        return null;
     }
 }
