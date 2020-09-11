@@ -5,7 +5,6 @@ import byog.TileEngine.TETile;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Random;
 
@@ -18,7 +17,7 @@ public class Game {
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
-    public void playWithKeyboard() throws IOException, ClassNotFoundException {
+    public void playWithKeyboard() {
         GameUI ui = new GameUI(WIDTH, HEIGHT, ter);
         ui.start();
     }
@@ -36,7 +35,7 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) throws IOException {
+    public TETile[][] playWithInputString(String input) {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
@@ -50,7 +49,12 @@ public class Game {
             play.startWithCommand(action);
             //map.present();
             if (command.getStore()) {
-                play.serialize();
+                try {
+                    play.serialize();
+                } catch (Exception e) {
+                    return map.getTiles();
+                }
+
             }
             return map.getTiles();
         } else {

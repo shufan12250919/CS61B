@@ -7,7 +7,6 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Random;
 
@@ -24,7 +23,7 @@ public class GameUI {
         ter = t;
     }
 
-    public void start() throws IOException, ClassNotFoundException {
+    public void start() {
         ter.initialize(width, height + yOffset, 0, 2);
         drawFrame("CS61B THE GAME", 30, width / 2, height * 4 / 5);
         drawFrame("New Game (N)", 20, width / 2, height * 11 / 20);
@@ -51,7 +50,7 @@ public class GameUI {
         return false;
     }
 
-    private void action() throws IOException, ClassNotFoundException {
+    private void action() {
         char c = 'e';
         while (!checkClickable(c)) {
             if (!StdDraw.hasNextKeyTyped()) {

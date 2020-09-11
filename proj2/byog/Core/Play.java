@@ -6,7 +6,10 @@ import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class Play implements Serializable {
     private Map map;
@@ -29,12 +32,12 @@ public class Play implements Serializable {
         return map;
     }
 
-    public void start() throws IOException {
+    public void start() {
         hub();
         action();
     }
 
-    public void load() throws IOException {
+    public void load() {
         ter.renderFrame(map.getTiles());
         hub();
         action();
@@ -55,7 +58,7 @@ public class Play implements Serializable {
         StdDraw.show();
     }
 
-    private void action() throws IOException {
+    private void action() {
         char c = '!';
         while (c != 'Q' && c != 'q') {
             if (!StdDraw.hasNextKeyTyped()) {
@@ -72,10 +75,14 @@ public class Play implements Serializable {
 
     }
 
-    public void serialize() throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("game.txt")));
-        oos.writeObject(this);
-        oos.close();
+    public void serialize() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("game.txt")));
+            oos.writeObject(this);
+            oos.close();
+        } catch (Exception e) {
+            return;
+        }
     }
 
     public void startWithCommand(String s) {
