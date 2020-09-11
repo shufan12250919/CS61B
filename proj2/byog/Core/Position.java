@@ -3,7 +3,9 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
     private TETile[][] tiles;
     private int xpos;
     private int ypos;
@@ -20,6 +22,11 @@ public class Position {
 
     public int getYpos() {
         return ypos;
+    }
+
+    public void setPos(int x, int y) {
+        xpos = x;
+        ypos = y;
     }
 
     public void makeWay(Position target) {

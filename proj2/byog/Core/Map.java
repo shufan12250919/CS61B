@@ -4,10 +4,11 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Map {
+public class Map implements Serializable {
     private int width;
     private int height;
     private TETile[][] tiles;
@@ -34,7 +35,6 @@ public class Map {
         return tiles;
     }
 
-
     public int getWidth() {
         return width;
     }
@@ -42,6 +42,11 @@ public class Map {
     public int getHeight() {
         return height;
     }
+
+    public Position getPlayer() {
+        return player;
+    }
+
 
     private void fillWithNothing() {
         for (int x = 0; x < width; x += 1) {

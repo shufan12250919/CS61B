@@ -3,10 +3,11 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Room {
+public class Room implements Serializable {
     private TETile[][] tiles;
     private int xlen;
     private int ylen;

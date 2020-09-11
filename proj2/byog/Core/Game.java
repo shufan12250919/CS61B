@@ -3,22 +3,24 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Random;
 
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
-    public static final int WIDTH = 50;
-    public static final int HEIGHT = 50;
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 45;
 
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
-    public void playWithKeyboard() {
-        Random r = new Random(204);
-        GameUI ui = new GameUI(WIDTH, HEIGHT, ter, r);
+    public void playWithKeyboard() throws IOException, ClassNotFoundException {
+        GameUI ui = new GameUI(WIDTH, HEIGHT, ter);
         ui.start();
-
     }
 
     /**
@@ -34,23 +36,38 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) {
+    public TETile[][] playWithInputString(String input) throws IOException {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
-        long seed = 0;
-        input = input.substring(0, input.length() - 1);
-        if (input.charAt(0) == 'N' || input.charAt(0) == 'n') {
-            seed = Long.parseLong(input.substring(1));
+
+        StringCommand command = new StringCommand(input);
+        long seed = command.getSeed();
+        String action = command.getAction();
+        if (!command.getLoad()) {
+            Random r = new Random(seed);
+            Map map = new Map(WIDTH, HEIGHT, r);
+            Play play = new Play(map, WIDTH, HEIGHT, 4, ter);
+            play.startWithCommand(action);
+            map.present();
+            if (command.getStore()) {
+                play.serialize();
+            }
+            return map.getTiles();
         } else {
-            seed = Long.parseLong(input);
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("game.txt")));
+                Play play = (Play) ois.readObject();
+                play.startWithCommand(action);
+                play.getMap().present();
+                if (command.getStore()) {
+                    play.serialize();
+                }
+            } catch (Exception e) {
+                System.exit(0);
+            }
+
         }
 
-        Random r = new Random(seed);
-        //int w = r.nextInt(30) + 25;
-        //int h = r.nextInt(30) + 25;
-        Map map = new Map(WIDTH, HEIGHT, r);
-        //map.present();
-        TETile[][] finalWorldFrame = map.getTiles();
-        return finalWorldFrame;
+        return null;
     }
 }
