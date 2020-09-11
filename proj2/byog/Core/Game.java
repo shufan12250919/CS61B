@@ -66,12 +66,11 @@ public class Game {
                 if (command.getStore()) {
                     play.serialize();
                 }
+                return play.getMap().getTiles();
             } catch (Exception e) {
                 System.exit(0);
             }
-
         }
-
         return null;
     }
 }
