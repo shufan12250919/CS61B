@@ -4,9 +4,11 @@ import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Random;
 
@@ -73,10 +75,11 @@ public class GameUI {
         }
         if (c == 'l' || c == 'L') {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./game.txt")));
+                FileInputStream fi = new FileInputStream(new File("game.txt"));
+                ObjectInputStream ois = new ObjectInputStream(fi);
                 Play play = (Play) ois.readObject();
                 play.load();
-            } catch (Exception e) {
+            } catch (ClassNotFoundException | IOException e) {
                 System.exit(0);
             }
 

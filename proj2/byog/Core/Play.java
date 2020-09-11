@@ -5,9 +5,11 @@ import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
@@ -77,10 +79,11 @@ public class Play implements Serializable {
 
     public void serialize() {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("./game.txt")));
+            FileOutputStream fo = new FileOutputStream(new File("game.txt"));
+            ObjectOutputStream oos = new ObjectOutputStream(fo);
             oos.writeObject(this);
             oos.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             return;
         }
     }

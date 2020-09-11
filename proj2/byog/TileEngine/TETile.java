@@ -3,7 +3,7 @@ package byog.TileEngine;
 import byog.Core.RandomUtils;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Random;
@@ -35,8 +35,8 @@ public class TETile implements Serializable {
      * @param character       The character displayed on the screen.
      * @param textColor       The color of the character itself.
      * @param backgroundColor The color drawn behind the character.
-     * @param description     The description of the tile, shown in the GUI on hovering over the tile.
-     * @param filepath        Full path to image to be used for this tile. Must be correct size (16x16)
+     * @param description     Description of the tile, shown in the GUI on hovering over the tile.
+     * @param filepath        Full path to image to be used for tile. Must be correct size(16x16)
      */
     public TETile(char character, Color textColor, Color backgroundColor, String description,
                   String filepath) {
@@ -54,7 +54,7 @@ public class TETile implements Serializable {
      * @param character       The character displayed on the screen.
      * @param textColor       The color of the character itself.
      * @param backgroundColor The color drawn behind the character.
-     * @param description     The description of the tile, shown in the GUI on hovering over the tile.
+     * @param description     Description of the tile, shown in the GUI on hovering over the tile.
      */
     public TETile(char character, Color textColor, Color backgroundColor, String description) {
         this.character = character;

@@ -50,17 +50,13 @@ public class Game {
             play.startWithCommand(action);
             //map.present();
             if (command.getStore()) {
-                try {
-                    play.serialize();
-                } catch (Exception e) {
-                    return map.getTiles();
-                }
-
+                play.serialize();
             }
             return map.getTiles();
         } else {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./game.txt")));
+                FileInputStream fi = new FileInputStream(new File("game.txt"));
+                ObjectInputStream ois = new ObjectInputStream(fi);
                 Play play = (Play) ois.readObject();
                 play.startWithCommand(action);
                 //play.getMap().present();
