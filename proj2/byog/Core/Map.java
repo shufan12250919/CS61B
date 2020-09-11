@@ -15,6 +15,7 @@ public class Map implements Serializable {
     private Random random;
     private ArrayList<Room> rooms;
     private Position player;
+    private Position door;
 
 
     public Map(int w, int h, Random r) {
@@ -29,6 +30,7 @@ public class Map implements Serializable {
         buildWall();
         buildGold();
         buildPlayer();
+        buildWater();
     }
 
     public TETile[][] getTiles() {
@@ -45,6 +47,10 @@ public class Map implements Serializable {
 
     public Position getPlayer() {
         return player;
+    }
+
+    public Position getDoor() {
+        return door;
     }
 
 
@@ -172,6 +178,7 @@ public class Map implements Serializable {
         }
         if (checkGold(x, y)) {
             tiles[x][y] = Tileset.LOCKED_DOOR;
+            door = new Position(tiles, x, y);
         } else {
             buildGold();
         }
@@ -208,6 +215,21 @@ public class Map implements Serializable {
         int x = player.getXpos();
         int y = player.getYpos();
         tiles[x][y] = Tileset.PLAYER;
+    }
+
+    private void buildWater() {
+        int turn = 3;
+        while (turn != 0) {
+            int roomNum = random.nextInt(rooms.size() - 1);
+            Room r = rooms.get(roomNum);
+            Position water = r.pickRandomPosition();
+            int x = water.getXpos();
+            int y = water.getYpos();
+            if (tiles[x][y] == Tileset.FLOOR) {
+                tiles[x][y] = Tileset.WATER;
+                turn--;
+            }
+        }
     }
 
 
