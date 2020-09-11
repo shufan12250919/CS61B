@@ -73,7 +73,7 @@ public class GameUI {
         }
         if (c == 'l' || c == 'L') {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("game.txt")));
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./game.txt")));
                 Play play = (Play) ois.readObject();
                 play.load();
             } catch (Exception e) {

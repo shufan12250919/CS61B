@@ -77,7 +77,7 @@ public class Play implements Serializable {
 
     public void serialize() {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("game.txt")));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("./game.txt")));
             oos.writeObject(this);
             oos.close();
         } catch (Exception e) {

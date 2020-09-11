@@ -60,7 +60,7 @@ public class Game {
             return map.getTiles();
         } else {
             try {
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("game.txt")));
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("./game.txt")));
                 Play play = (Play) ois.readObject();
                 play.startWithCommand(action);
                 //play.getMap().present();
