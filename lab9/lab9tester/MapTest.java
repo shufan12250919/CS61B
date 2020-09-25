@@ -10,7 +10,11 @@ public class MapTest {
         bstmap.put("fish", 22);
         bstmap.put("zebra", 90);
         printKeys(bstmap);
+        System.out.println("Remove: " + bstmap.remove("cat"));
+        printKeys(bstmap);
         System.out.println("Remove: " + bstmap.remove("fish"));
+        printKeys(bstmap);
+        System.out.println("Remove: " + bstmap.remove("hello"));
         printKeys(bstmap);
     }
 

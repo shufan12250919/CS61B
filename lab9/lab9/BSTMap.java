@@ -144,6 +144,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
         } else if (compare < 0) {
             node.left = removeHelper(key, node.left, delete);
         } else {
+            size--;
             delete[0] = node.value;
             if (node.left == null) {
                 return node.right;
