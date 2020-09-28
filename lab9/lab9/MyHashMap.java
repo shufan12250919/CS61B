@@ -1,5 +1,6 @@
 package lab9;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 public class MyHashMap<K, V> implements Map61B<K, V> {
 
-    private static final int DEFAULT_SIZE = 16;
+    private static final int DEFAULT_SIZE = 4;
     private static final double MAX_LF = 0.75;
 
     private ArrayMap<K, V>[] buckets;
@@ -82,10 +83,11 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
             for (Object key : map) {
                 K k = (K) key;
                 V v = (V) map.get(key);
-                int hashcode = hash(k);
+                int hashcode = Math.floorMod(key.hashCode(), largeBuckets.length); // create new hashcode
                 largeBuckets[hashcode].put(k, v);
             }
         }
+        buckets = largeBuckets;
     }
 
     /* Returns the number of key-value mappings in this map. */
@@ -99,7 +101,13 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Returns a Set view of the keys contained in this map. */
     @Override
     public Set<K> keySet() {
-        throw new UnsupportedOperationException();
+        Set<K> set = new HashSet<>();
+        for (ArrayMap map : buckets) {
+            for (Object k : map) {
+                set.add((K) k);
+            }
+        }
+        return set;
     }
 
     /* Removes the mapping for the specified key from this map if exists.
@@ -107,7 +115,12 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * UnsupportedOperationException. */
     @Override
     public V remove(K key) {
-        throw new UnsupportedOperationException();
+        int hashcode = hash(key);
+        ArrayMap<K, V> map = buckets[hashcode];
+        if (map.containsKey(key)) {
+            size--;
+        }
+        return map.remove(key);
     }
 
     /* Removes the entry for the specified key only if it is currently mapped to
@@ -115,11 +128,20 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * throw an UnsupportedOperationException.*/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        int hashcode = hash(key);
+        ArrayMap<K, V> map = buckets[hashcode];
+        if (!map.containsKey(key)) {
+            return null;
+        }
+        if (map.get(key).equals(value)) {
+            size--;
+            return map.remove(key);
+        }
+        return null;
     }
 
     @Override
     public Iterator<K> iterator() {
-        throw new UnsupportedOperationException();
+        return keySet().iterator();
     }
 }
