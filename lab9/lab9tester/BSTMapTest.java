@@ -2,7 +2,7 @@ package lab9tester;
 
 import lab9.BSTMap;
 
-public class MapTest {
+public class BSTMapTest {
     public static void main(String[] args) {
         BSTMap<String, Integer> bstmap = new BSTMap<>();
         bstmap.put("hello", 5);
