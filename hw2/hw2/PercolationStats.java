@@ -16,8 +16,8 @@ public class PercolationStats {
             Percolation p = pf.make(N);
             int time = 0;
             while (!p.percolates()) {
-                int row = StdRandom.uniform(N) + 1;
-                int col = StdRandom.uniform(N) + 1;
+                int row = StdRandom.uniform(N);
+                int col = StdRandom.uniform(N);
                 p.open(row, col);
                 time++;
             }

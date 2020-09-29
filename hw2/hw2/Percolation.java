@@ -28,7 +28,7 @@ public class Percolation {
 
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (row < 0 || row > len || col < 0 || col > len) {
+        if (row < 0 || row >= len || col < 0 || col >= len) {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
         int index = convert(row, col);
