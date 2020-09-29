@@ -30,13 +30,17 @@ public class Percolation {
         }
         open++;
         grid[row][col] = true;
+        //connect to top
         if (row == 0) {
             set.union(col, top);
         }
-        if (row == len - 1) {
+
+        connect(row, col);
+
+        //if percolate then connect to bot
+        if (row == len - 1 && set.connected(convert(row, col), bot)) {
             set.union(convert(row, col), bot);
         }
-        connect(row, col);
     }
 
     // convert 2d position to 1d for set
@@ -44,7 +48,7 @@ public class Percolation {
         return row * len + col;
     }
 
-    //connect the sites
+    //connect the surrounding sites
     private void connect(int row, int col) {
         int pos = convert(row, col);
         if (row - 1 > -1) {
@@ -89,12 +93,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
         int pos = convert(row, col);
-        for (int i = 0; i < len; i++) {
-            if (set.connected(pos, i) && isOpen(0, i)) {
-                return true;
-            }
-        }
-        return false;
+        return set.connected(pos, top);
     }
 
     // number of open sites
