@@ -3,17 +3,20 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private WeightedQuickUnionUF set;
+    private WeightedQuickUnionUF set, set2;
     private boolean[][] grid;
+    private boolean[][] connectBot;
     private int open;
     private int len;
     private int top; //top point for the set
     private int bot; //bottom point for the set
 
+
     // create N-by-N grid, with all sites initially blocked
     public Percolation(int N) {
         len = N;
         set = new WeightedQuickUnionUF(N * N + 2);
+        set2 = new WeightedQuickUnionUF(N * N + 1);
         top = N * N;
         bot = N * N + 1;
         grid = new boolean[N][N];
@@ -33,14 +36,16 @@ public class Percolation {
         //connect to top
         if (row == 0) {
             set.union(col, top);
+            set2.union(col, top);
+        }
+        //connect to bot
+        if (row == len - 1) {
+            set.union(convert(row, col), bot);
         }
 
         connect(row, col);
 
-        //if percolate then connect to bot
-        if (row == len - 1 && set.connected(convert(row, col), bot)) {
-            set.union(convert(row, col), bot);
-        }
+
     }
 
     // convert 2d position to 1d for set
@@ -55,24 +60,28 @@ public class Percolation {
             if (isOpen(row - 1, col)) {
                 int up = convert(row - 1, col);
                 set.union(pos, up);
+                set2.union(pos, up);
             }
         }
         if (row + 1 < len) {
             if (isOpen(row + 1, col)) {
                 int down = convert(row + 1, col);
                 set.union(pos, down);
+                set2.union(pos, down);
             }
         }
         if (col - 1 > -1) {
             if (isOpen(row, col - 1)) {
                 int left = convert(row, col - 1);
                 set.union(pos, left);
+                set2.union(pos, left);
             }
         }
         if (col + 1 < len) {
             if (isOpen(row, col + 1)) {
                 int right = convert(row, col + 1);
                 set.union(pos, right);
+                set2.union(pos, right);
             }
         }
     }
@@ -93,7 +102,7 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
         int pos = convert(row, col);
-        return set.connected(pos, top);
+        return set2.connected(pos, top);
     }
 
     // number of open sites
