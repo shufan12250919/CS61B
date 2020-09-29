@@ -3,23 +3,26 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-    private WeightedQuickUnionUF set, set2;
-    private boolean[][] grid;
-    private boolean[][] connectBot;
+    private static final byte BLOCKED = Byte.parseByte("0"); // 00000000
+    private static final byte OPEN = Byte.parseByte("1"); // 00000001
+    private static final byte TOPCONNECTED = Byte.parseByte("2"); // 00000010
+    private static final byte BOTTOMCONNECTED = Byte.parseByte("4"); // 00000100
+    private static final byte PERCOLATED = Byte.valueOf("7"); // 00000111
+    private WeightedQuickUnionUF set;
+    private byte[] grid;
     private int open;
     private int len;
-    private int top; //top point for the set
-    private int bot; //bottom point for the set
+    private boolean percolate;
 
 
     // create N-by-N grid, with all sites initially blocked
     public Percolation(int N) {
+        if (N <= 0) {
+            throw new IllegalArgumentException("N need to be positive!!!");
+        }
         len = N;
-        set = new WeightedQuickUnionUF(N * N + 2);
-        set2 = new WeightedQuickUnionUF(N * N + 1);
-        top = N * N;
-        bot = N * N + 1;
-        grid = new boolean[N][N];
+        set = new WeightedQuickUnionUF(N * N);
+        grid = new byte[N * N];
         open = 0;
     }
 
@@ -28,23 +31,22 @@ public class Percolation {
         if (row < 0 || row > len || col < 0 || col > len) {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
-        if (grid[row][col]) {
+        int index = convert(row, col);
+        if (grid[index] != BLOCKED) {
             return; // if the grid is already opened
         }
         open++;
-        grid[row][col] = true;
+        grid[index] = OPEN;
         //connect to top
         if (row == 0) {
-            set.union(col, top);
-            set2.union(col, top);
+            grid[index] = (byte) (grid[index] | TOPCONNECTED);
         }
         //connect to bot
         if (row == len - 1) {
-            set.union(convert(row, col), bot);
+            grid[index] = (byte) (grid[index] | BOTTOMCONNECTED);
         }
 
         connect(row, col);
-
 
     }
 
@@ -60,30 +62,38 @@ public class Percolation {
             if (isOpen(row - 1, col)) {
                 int up = convert(row - 1, col);
                 set.union(pos, up);
-                set2.union(pos, up);
+                grid[pos] = (byte) (grid[pos] | grid[up]);
             }
         }
         if (row + 1 < len) {
             if (isOpen(row + 1, col)) {
                 int down = convert(row + 1, col);
                 set.union(pos, down);
-                set2.union(pos, down);
+                grid[pos] = (byte) (grid[pos] | grid[down]);
             }
         }
         if (col - 1 > -1) {
             if (isOpen(row, col - 1)) {
                 int left = convert(row, col - 1);
                 set.union(pos, left);
-                set2.union(pos, left);
+                grid[pos] = (byte) (grid[pos] | grid[left]);
             }
         }
         if (col + 1 < len) {
             if (isOpen(row, col + 1)) {
                 int right = convert(row, col + 1);
                 set.union(pos, right);
-                set2.union(pos, right);
+                grid[pos] = (byte) (grid[pos] | grid[right]);
             }
         }
+
+        int root = set.find(pos);
+        grid[root] = (byte) (grid[pos] | grid[root]);
+        if (grid[root] == PERCOLATED) {
+            percolate = true;
+        }
+
+
     }
 
 
@@ -92,7 +102,11 @@ public class Percolation {
         if (row < 0 || row > len || col < 0 || col > len) {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
-        return grid[row][col];
+        int index = convert(row, col);
+        if (grid[index] != BLOCKED) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -101,8 +115,13 @@ public class Percolation {
         if (row < 0 || row > len || col < 0 || col > len) {
             throw new java.lang.IndexOutOfBoundsException("Out of range!!!");
         }
-        int pos = convert(row, col);
-        return set2.connected(pos, top);
+        int index = convert(row, col);
+        int root = set.find(index);
+        if ((byte) (grid[root] & TOPCONNECTED) == TOPCONNECTED) {
+            return true;
+        }
+        return false;
+
     }
 
     // number of open sites
@@ -112,7 +131,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return set.connected(top, bot);
+        return percolate;
     }
 
     // use for unit testing (not required)
