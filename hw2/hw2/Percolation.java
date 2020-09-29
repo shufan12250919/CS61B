@@ -61,29 +61,33 @@ public class Percolation {
         if (row - 1 > -1) {
             if (isOpen(row - 1, col)) {
                 int up = convert(row - 1, col);
+                int rootad = set.find(up);
+                grid[pos] = (byte) (grid[pos] | grid[rootad]);
                 set.union(pos, up);
-                grid[pos] = (byte) (grid[pos] | grid[up]);
             }
         }
         if (row + 1 < len) {
             if (isOpen(row + 1, col)) {
                 int down = convert(row + 1, col);
+                int rootad = set.find(down);
+                grid[pos] = (byte) (grid[pos] | grid[rootad]);
                 set.union(pos, down);
-                grid[pos] = (byte) (grid[pos] | grid[down]);
             }
         }
         if (col - 1 > -1) {
             if (isOpen(row, col - 1)) {
                 int left = convert(row, col - 1);
+                int rootad = set.find(left);
+                grid[pos] = (byte) (grid[pos] | grid[rootad]);
                 set.union(pos, left);
-                grid[pos] = (byte) (grid[pos] | grid[left]);
             }
         }
         if (col + 1 < len) {
             if (isOpen(row, col + 1)) {
                 int right = convert(row, col + 1);
+                int rootad = set.find(right);
+                grid[pos] = (byte) (grid[pos] | grid[rootad]);
                 set.union(pos, right);
-                grid[pos] = (byte) (grid[pos] | grid[right]);
             }
         }
 
