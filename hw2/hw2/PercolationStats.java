@@ -1,6 +1,7 @@
 package hw2;
 
 import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
     private double[] exp;
@@ -14,36 +15,25 @@ public class PercolationStats {
         int area = N * N;
         for (int i = 0; i < T; i++) {
             Percolation p = pf.make(N);
-            int time = 0;
             while (!p.percolates()) {
                 int row = StdRandom.uniform(N);
                 int col = StdRandom.uniform(N);
                 p.open(row, col);
-                time++;
+
             }
-            exp[i] = time * 1.0 / area;
+            exp[i] = p.numberOfOpenSites() * 1.0 / area;
         }
 
     }
 
     // sample mean of percolation threshold
     public double mean() {
-        double sum = 0.0;
-        for (double x : exp) {
-            sum += x;
-        }
-        return sum / exp.length;
+        return StdStats.mean(exp);
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        double mean = mean();
-        double sum = 0.0;
-        for (double x : exp) {
-            sum += ((x - mean) * (x - mean));
-        }
-        double dev = sum / (exp.length - 1);
-        return Math.sqrt(dev);
+        return StdStats.stddev(exp);
     }
 
     // low endpoint of 95% confidence interval
