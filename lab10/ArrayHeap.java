@@ -209,15 +209,20 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (index == -1) {
             return;
         }
-        contents[index] = new Node(item, priority);
-        sink(index);
-        index = findItem(item);
-        swim(index);
+        Node cur = contents[index];
+        double pastPriority = cur.myPriority;
+        cur.myPriority = priority;
+        if (priority > pastPriority) {
+            swim(index);
+        } else {
+            sink(index);
+        }
+
     }
 
     //return the index of the item, return -1 if the item is not the contents
     private int findItem(T item) {
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i <= size; i++) {
             if (contents[i].myItem.equals(item)) {
                 return i;
             }
