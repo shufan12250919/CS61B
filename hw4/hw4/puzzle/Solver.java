@@ -4,16 +4,16 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Queue;
 
 public class Solver {
-    private int searchitems;
+    //private int searchitems;
     private Queue<WorldState> q;
 
     public Solver(WorldState initial) {
-        searchitems = 0;
+        //searchitems = 0;
 
         MinPQ<SearchNode> pq = new MinPQ<>(new SearchNodeComparator());
         pq.insert(new SearchNode(initial));
         while (!pq.isEmpty()) {
-            searchitems++;
+            //searchitems++;
             SearchNode search = pq.delMin();
             WorldState current = search.getCurrent();
             if (current.isGoal()) {
@@ -51,7 +51,8 @@ public class Solver {
         return q;
     }
 
-    public int getSearchitems() {
+    /*
+    public int searchItems() {
         return searchitems;
-    }
+    }*/
 }

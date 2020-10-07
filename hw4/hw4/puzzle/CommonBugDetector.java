@@ -85,12 +85,13 @@ public class CommonBugDetector {
 
         // s.moves() should be 5
         System.out.println("s.moves() should be 5, and your s.moves() is: " + s.moves());
-
+        /*
         AlphabetEasyPuzzle aep = new AlphabetEasyPuzzle('a');
         Solver s3 = new Solver(aep);
-        System.out.println("s2.getSearchitems() should be approximately 25, your s.getSearchitems() is: "
-                + s3.getSearchitems());
+        System.out.println("s2.searchItems() should be approximately 25, s.searchItems() is: "
+                + s3.searchItems());
         // if you print out the total number of items enqueued by s3
         // it should be approximately 25, not approximately 50.
+         */
     }
 }

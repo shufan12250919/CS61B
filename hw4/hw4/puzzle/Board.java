@@ -10,16 +10,16 @@ public class Board implements WorldState {
     private int blankrow;
     private int blankcol;
 
-    public Board(int[][] tiles) {
-        this.tiles = new int[tiles.length][tiles.length];
-        copuytiles(tiles);
+    public Board(int[][] t) {
+        this.tiles = new int[t.length][t.length];
+        copuytiles(t);
         findBlank();
     }
 
-    private void copuytiles(int[][] tiles) {
+    private void copuytiles(int[][] t) {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
-                this.tiles[i][j] = tiles[i][j];
+                this.tiles[i][j] = t[i][j];
             }
         }
     }
@@ -86,15 +86,17 @@ public class Board implements WorldState {
     public int hamming() {
         int hamming = 0;
         int N = size();
+        int start = 1;
         for (int r = 0; r < N; r++) {
             for (int c = 0; c < N; c++) {
-                if (tiles[r][c] != r * N + c + 1) {
+                if (start == N * N) {
+                    break;
+                }
+                if (tiles[r][c] != start) {
                     hamming++;
                 }
+                start++;
             }
-        }
-        if (tiles[N - 1][N - 1] == BLANK) {
-            hamming--;
         }
         return hamming;
     }
