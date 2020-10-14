@@ -151,9 +151,9 @@ public class Rasterer {
         double high = (MapServer.ROOT_ULLAT - MapServer.ROOT_LRLAT) / range;
         double[] bounding = new double[4];
         bounding[0] = MapServer.ROOT_ULLON + indices[0] * wide;
-        bounding[1] = MapServer.ROOT_ULLON + indices[1] * wide;
-        bounding[0] = MapServer.ROOT_LRLAT + indices[2] * wide;
-        bounding[1] = MapServer.ROOT_LRLAT + indices[3] * wide;
+        bounding[1] = MapServer.ROOT_ULLON + (indices[1] + 1) * wide;
+        bounding[3] = MapServer.ROOT_ULLAT - indices[2] * high;
+        bounding[2] = MapServer.ROOT_ULLAT - (indices[3] + 1) * high;
         return bounding;
     }
 
