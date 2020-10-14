@@ -9,7 +9,7 @@ import java.util.Map;
  * not draw the output correctly.
  */
 public class Rasterer {
-    private final static double LargestLonPP = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / 256;
+    private final double LARGEST_LON_PP = (MapServer.ROOT_LRLON - MapServer.ROOT_ULLON) / 256;
 
     public Rasterer() {
         // YOUR CODE HERE
@@ -76,7 +76,7 @@ public class Rasterer {
         //set query_success
         results.put("query_success", true);
 
-        System.out.println(results);
+        //System.out.println(results);
         return results;
     }
 
@@ -88,7 +88,7 @@ public class Rasterer {
 
     private int depth(double londpp, double w) {
         int depth = 0;
-        double currlondpp = LargestLonPP;
+        double currlondpp = LARGEST_LON_PP;
         while (currlondpp >= londpp && depth < 7) {
             currlondpp /= 2;
             depth++;
