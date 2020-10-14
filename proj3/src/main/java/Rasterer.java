@@ -133,12 +133,19 @@ public class Rasterer {
             lon += wide;
         }
 
-        // check if query box is larger than the root field
-        // lower case will be handle above
+        // check if indices[0],[2] is larger than the last field
+        // check if indices[1],[3] is larger than the root field
+        if (ullon > MapServer.ROOT_LRLON - wide) {
+            indices[0] = range - 1;
+        }
         if (lrlon > MapServer.ROOT_LRLON) {
             indices[1] = range - 1;
         }
-        if (ullat > MapServer.ROOT_ULLAT) {
+
+        if (lrlat < MapServer.ROOT_LRLAT + high) {
+            indices[2] = range - 1;
+        }
+        if (ullat < MapServer.ROOT_LRLAT) {
             indices[3] = range - 1;
         }
         return indices;
