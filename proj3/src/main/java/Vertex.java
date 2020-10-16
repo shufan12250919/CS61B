@@ -1,7 +1,6 @@
 public class Vertex implements Comparable {
     private long id;
     private double dist;
-    private long target;
 
     public Vertex(long id, double dist) {
         this.id = id;
