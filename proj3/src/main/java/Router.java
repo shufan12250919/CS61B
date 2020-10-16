@@ -69,6 +69,10 @@ public class Router {
         }
         nodes.add(end);
         long previous = end;
+        //check if the end is reachable
+        if (!edgeFrom.containsKey(previous)) {
+            return null;
+        }
         while (true) {
             long current = edgeFrom.get(previous);
             nodes.add(current);
