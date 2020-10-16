@@ -1,10 +1,11 @@
 public class Edge {
     private String streetName;
     private Integer speedLimit;
-    private long to; //the target
+    private long[] nodes = new long[2];
 
-    public Edge(long id, String limit, String name) {
-        to = id;
+    public Edge(long n1, long n2, String limit, String name) {
+        nodes[0] = n1;
+        nodes[1] = n2;
         if (!limit.equals("")) {
             setSpeedLimit(limit);
         }
@@ -27,7 +28,7 @@ public class Edge {
         return speedLimit;
     }
 
-    public long getTo() {
-        return to;
+    public long[] getNodes() {
+        return nodes;
     }
 }

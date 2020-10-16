@@ -164,9 +164,8 @@ public class GraphBuildingHandler extends DefaultHandler {
                 Node currentNode = g.getNode(currentID);
                 Node nextNode = g.getNode(nextID);
                 currentNode.addAdj(nextID);
-                currentNode.addEdge(new Edge(nextID, speed, streetName));
                 nextNode.addAdj(currentID);
-                nextNode.addEdge(new Edge(currentID, speed, streetName));
+                g.addEdge(currentID, nextID, speed, streetName);
             }
         }
     }

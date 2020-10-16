@@ -26,6 +26,7 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
     private Map<Long, Node> nodes;
+    private Map<String, Edge> edges;
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -42,6 +43,7 @@ public class GraphDB {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser saxParser = factory.newSAXParser();
             nodes = new HashMap<>();
+            edges = new HashMap<>();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
             saxParser.parse(inputStream, gbh);
         } catch (ParserConfigurationException | SAXException | IOException e) {
@@ -196,5 +198,20 @@ public class GraphDB {
 
     public Node getNode(long nodeID) {
         return nodes.get(nodeID);
+    }
+
+    public void addEdge(Long node1, Long node2, String speed, String name) {
+        String edge = node1 + " " + node2;
+        edges.put(edge, new Edge(node1, node2, speed, name));
+    }
+
+    public List<Edge> getEdge(Long node) {
+        List<Edge> edgeList = new ArrayList<>();
+        for (String ids : edges.keySet()) {
+            if (ids.contains(node.toString())) {
+                edgeList.add(edges.get(ids));
+            }
+        }
+        return edgeList;
     }
 }
