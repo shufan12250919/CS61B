@@ -37,33 +37,33 @@ public class Router {
         HashMap<Long, Long> edgeFrom = new HashMap<>();
         HashMap<Long, Double> best = new HashMap<>();
         HashSet<Long> mark = new HashSet<>();
-        NodeComparator comparator = new NodeComparator(g, end, best);
-        PriorityQueue<Long> pq = new PriorityQueue<>(10, comparator);
-        pq.add(start);
+        PriorityQueue<Vertex> pq = new PriorityQueue<>();
+        pq.add(new Vertex(start, 0.0));
         best.put(start, 0.0);
         edgeFrom.put(start, start);
         while (!pq.isEmpty()) {
-            long current = pq.remove();
+            long current = pq.remove().getId();
             mark.add(current);
             if (current == end) {
                 break;
             }
             for (Long neighbor : g.getNode(current).getAdj()) {
                 if (!mark.contains(neighbor)) {
-                    double ToneightborDistance = g.distance(current, neighbor);
+                    double toneightborDistance = g.distance(current, neighbor);
                     double currentDistance = best.get(current);
-                    double TotalDistance = ToneightborDistance + currentDistance;
+                    double totalDistance = toneightborDistance + currentDistance;
+                    double h = g.distance(neighbor, end);
                     if (!best.containsKey(neighbor)) {
-                        best.put(neighbor, TotalDistance);
+                        best.put(neighbor, totalDistance);
                         edgeFrom.put(neighbor, current);
-                        pq.add(neighbor);
+                        pq.add(new Vertex(neighbor, totalDistance + h));
                         continue;
                     }
-                    if (best.get(neighbor) > TotalDistance) {
-                        best.put(neighbor, TotalDistance);
+                    if (best.get(neighbor) > totalDistance) {
+                        best.put(neighbor, totalDistance);
                         edgeFrom.put(neighbor, current);
                     }
-                    pq.add(neighbor);
+                    pq.add(new Vertex(neighbor, totalDistance + h));
                 }
             }
         }
