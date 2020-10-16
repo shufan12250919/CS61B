@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,21 +21,70 @@ public class Router {
      * Return a List of longs representing the shortest path from the node
      * closest to a start location and the node closest to the destination
      * location.
-     * @param g The graph to use.
-     * @param stlon The longitude of the start location.
-     * @param stlat The latitude of the start location.
+     *
+     * @param g       The graph to use.
+     * @param stlon   The longitude of the start location.
+     * @param stlat   The latitude of the start location.
      * @param destlon The longitude of the destination location.
      * @param destlat The latitude of the destination location.
      * @return A list of node id's in the order visited on the shortest path.
      */
     public static List<Long> shortestPath(GraphDB g, double stlon, double stlat,
                                           double destlon, double destlat) {
-        return null; // FIXME
+        List<Long> nodes = new ArrayList<>();
+        long start = g.closest(stlon, stlat);
+        long end = g.closest(destlon, destlat);
+        HashMap<Long, Long> edgeFrom = new HashMap<>();
+        HashMap<Long, Double> best = new HashMap<>();
+        HashSet<Long> mark = new HashSet<>();
+        NodeComparator comparator = new NodeComparator(g, end, best);
+        PriorityQueue<Long> pq = new PriorityQueue<>(10, comparator);
+        pq.add(start);
+        best.put(start, 0.0);
+        edgeFrom.put(start, start);
+        while (!pq.isEmpty()) {
+            long current = pq.remove();
+            mark.add(current);
+            if (current == end) {
+                break;
+            }
+            for (Long neighbor : g.getNode(current).getAdj()) {
+                if (!mark.contains(neighbor)) {
+                    double ToneightborDistance = g.distance(current, neighbor);
+                    double currentDistance = best.get(current);
+                    double TotalDistance = ToneightborDistance + currentDistance;
+                    if (!best.containsKey(neighbor)) {
+                        best.put(neighbor, TotalDistance);
+                        edgeFrom.put(neighbor, current);
+                        pq.add(neighbor);
+                        continue;
+                    }
+                    if (best.get(neighbor) > TotalDistance) {
+                        best.put(neighbor, TotalDistance);
+                        edgeFrom.put(neighbor, current);
+                    }
+                    pq.add(neighbor);
+                }
+            }
+        }
+        nodes.add(end);
+        long previous = end;
+        while (true) {
+            long current = edgeFrom.get(previous);
+            nodes.add(current);
+            if (current == start) {
+                break;
+            }
+            previous = current;
+        }
+        Collections.reverse(nodes);
+        return nodes;
     }
 
     /**
      * Create the list of directions corresponding to a route on the graph.
-     * @param g The graph to use.
+     *
+     * @param g     The graph to use.
      * @param route The route to translate into directions. Each element
      *              corresponds to a node from the graph in the route.
      * @return A list of NavigatiionDirection objects corresponding to the input
@@ -47,7 +101,9 @@ public class Router {
      */
     public static class NavigationDirection {
 
-        /** Integer constants representing directions. */
+        /**
+         * Integer constants representing directions.
+         */
         public static final int START = 0;
         public static final int STRAIGHT = 1;
         public static final int SLIGHT_LEFT = 2;
@@ -57,15 +113,21 @@ public class Router {
         public static final int SHARP_LEFT = 6;
         public static final int SHARP_RIGHT = 7;
 
-        /** Number of directions supported. */
+        /**
+         * Number of directions supported.
+         */
         public static final int NUM_DIRECTIONS = 8;
 
-        /** A mapping of integer values to directions.*/
+        /**
+         * A mapping of integer values to directions.
+         */
         public static final String[] DIRECTIONS = new String[NUM_DIRECTIONS];
 
-        /** Default name for an unknown way. */
+        /**
+         * Default name for an unknown way.
+         */
         public static final String UNKNOWN_ROAD = "unknown road";
-        
+
         /** Static initializer. */
         static {
             DIRECTIONS[START] = "Start";
@@ -78,11 +140,17 @@ public class Router {
             DIRECTIONS[SHARP_RIGHT] = "Sharp right";
         }
 
-        /** The direction a given NavigationDirection represents.*/
+        /**
+         * The direction a given NavigationDirection represents.
+         */
         int direction;
-        /** The name of the way I represent. */
+        /**
+         * The name of the way I represent.
+         */
         String way;
-        /** The distance along this way I represent. */
+        /**
+         * The distance along this way I represent.
+         */
         double distance;
 
         /**
@@ -96,12 +164,13 @@ public class Router {
 
         public String toString() {
             return String.format("%s on %s and continue for %.3f miles.",
-                    DIRECTIONS[direction], way, distance);
+                DIRECTIONS[direction], way, distance);
         }
 
         /**
          * Takes the string representation of a navigation direction and converts it into
          * a Navigation Direction object.
+         *
          * @param dirAsString The string representation of the NavigationDirection.
          * @return A NavigationDirection object representing the input string.
          */

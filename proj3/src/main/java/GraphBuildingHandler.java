@@ -118,7 +118,6 @@ public class GraphBuildingHandler extends DefaultHandler {
                 speed = v;
             } else if (k.equals("highway")) {
                 //System.out.println("Highway type: " + v);
-                /* TODO Figure out whether this way and its connections are valid. */
                 /* Hint: Setting a "flag" is good enough! */
                 if (ALLOWED_HIGHWAY_TYPES.contains(v)) {
                     highway = true;
