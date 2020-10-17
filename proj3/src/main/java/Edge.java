@@ -1,5 +1,5 @@
 public class Edge {
-    private String streetName;
+    private String streetName = "";
     private Integer speedLimit;
     private long[] nodes = new long[2];
 

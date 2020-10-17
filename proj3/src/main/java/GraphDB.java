@@ -214,4 +214,16 @@ public class GraphDB {
         }
         return edgeList;
     }
+
+    public Edge getEdge(long node, long node2) {
+        List<Edge> edgeList = getEdge(node);
+        for (Edge e : edgeList) {
+            for (long id : e.getNodes()) {
+                if (id == node2) {
+                    return e;
+                }
+            }
+        }
+        return null;
+    }
 }
