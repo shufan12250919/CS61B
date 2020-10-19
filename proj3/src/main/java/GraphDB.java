@@ -27,6 +27,7 @@ public class GraphDB {
      */
     private Map<Long, Node> nodes;
     private Map<String, Edge> edges;
+    private Trie locations;
 
     /**
      * Example constructor shows how to create and start an XML parser.
@@ -46,6 +47,8 @@ public class GraphDB {
             edges = new HashMap<>();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
             saxParser.parse(inputStream, gbh);
+            createLocationTries();
+            //System.out.println(getLocationsByPrefix("m").toString());
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -225,5 +228,20 @@ public class GraphDB {
             }
         }
         return null;
+    }
+
+    private void createLocationTries() {
+        locations = new Trie();
+        for (Node node : nodes.values()) {
+            String name = node.getLocationName();
+            if (name != null) {
+                locations.insert(name);
+            }
+        }
+    }
+
+    public List<String> getLocationsByPrefix(String prefix) {
+        prefix = cleanString(prefix);
+        return locations.wordsStartWith(prefix);
     }
 }
