@@ -56,7 +56,7 @@ public class GraphDB {
             e.printStackTrace();
         }
         clean();
-        //getLocations("Top Dog");
+        //getLocations("kpfbfm berkeley");
     }
 
     /**
@@ -270,15 +270,13 @@ public class GraphDB {
         }
         for (Node n : ns) {
             String name = n.getLocationName();
-            if (name.toLowerCase().equals(location)) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", n.getId());
-                map.put("lon", n.getLon());
-                map.put("lat", n.getLat());
-                map.put("name", name);
-                result.add(map);
-                //System.out.println(n.getId());
-            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", n.getId());
+            map.put("lon", n.getLon());
+            map.put("lat", n.getLat());
+            map.put("name", name);
+            result.add(map);
+            //System.out.println(n.getId());
         }
         //System.out.println(result.size());
         return result;
