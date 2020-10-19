@@ -42,7 +42,7 @@ public class GraphBuildingHandler extends DefaultHandler {
     private final GraphDB g;
     //for end elements
     private List<Long> possibleNodes = new ArrayList<>();
-    private long lastNode = 0;
+    private Node lastNode = null;
     private boolean highway;
     private String speed;
     private String streetName;
@@ -82,12 +82,11 @@ public class GraphBuildingHandler extends DefaultHandler {
 //            System.out.println("Node lon: " + attributes.getValue("lon"));
 //            System.out.println("Node lat: " + attributes.getValue("lat"));
             long id = Long.parseLong(attributes.getValue("id"));
-            lastNode = id;
             double lon = Double.parseDouble(attributes.getValue("lon"));
             double lat = Double.parseDouble(attributes.getValue("lat"));
-
+            lastNode = new Node(id, lon, lat);
             /* Hint: A graph-like structure would be nice. */
-            g.addNode(id, new Node(id, lon, lat));
+            g.addNode(id, lastNode);
 
         } else if (qName.equals("way")) {
             /* We encountered a new <way...> tag. */
@@ -135,9 +134,8 @@ public class GraphBuildingHandler extends DefaultHandler {
             node this tag belongs to. Remember XML is parsed top-to-bottom, so probably it's the
             last node that you looked at (check the first if-case). */
 //            System.out.println("Node's name: " + attributes.getValue("v"));
-            Node temp = g.getNode(lastNode);
-            temp.setLocationName(name);
-            g.addLocations(lastNode, temp);
+            lastNode.setLocationName(name);
+            g.addLocations(lastNode);
         }
     }
 

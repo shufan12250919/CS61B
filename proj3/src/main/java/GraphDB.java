@@ -8,8 +8,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Graph for storing all of the intersection (vertex) and road (edge) information.
@@ -26,7 +28,7 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
     private Map<Long, Node> nodes;
-    private Map<Long, Node> namedLocation;
+    private Set<Node> namedLocation;
     private Map<String, Edge> edges;
     private Trie locations;
 
@@ -46,7 +48,7 @@ public class GraphDB {
             SAXParser saxParser = factory.newSAXParser();
             nodes = new HashMap<>();
             edges = new HashMap<>();
-            namedLocation = new HashMap<>();
+            namedLocation = new HashSet<>();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
             saxParser.parse(inputStream, gbh);
             createLocationTries();
@@ -207,8 +209,8 @@ public class GraphDB {
         return nodes.get(nodeID);
     }
 
-    public void addLocations(long nodeID, Node node) {
-        namedLocation.put(nodeID, node);
+    public void addLocations(Node node) {
+        namedLocation.add(node);
     }
 
     public void addEdge(Long node1, Long node2, String speed, String name) {
@@ -240,7 +242,7 @@ public class GraphDB {
 
     private void createLocationTries() {
         locations = new Trie();
-        for (Node node : namedLocation.values()) {
+        for (Node node : namedLocation) {
             String name = node.getLocationName();
             if (name != null) {
                 locations.insert(name);
@@ -256,8 +258,8 @@ public class GraphDB {
     public List<Map<String, Object>> getLocations(String location) {
         location = cleanString(location);
         List<Map<String, Object>> result = new ArrayList<>();
-        for (Node n : namedLocation.values()) {
-            String name = n.getLocationName().toLowerCase();
+        for (Node n : namedLocation) {
+            String name = n.getLocationName();
             String cleanName = cleanString(name);
             if (cleanName.equals(location)) {
                 Map<String, Object> map = new HashMap<>();
