@@ -11,6 +11,7 @@ public class Trie {
         TrieNode() {
             words = new ArrayList<>();
             next = new HashMap<>();
+            words = new ArrayList<>();
         }
     }
 
@@ -24,9 +25,9 @@ public class Trie {
         if (word == null || word.equals("")) {
             return;
         }
-        String lowerword = word.toLowerCase();
+        String lowerword = GraphDB.cleanString(word);
         TrieNode ite = root;
-        for (int i = 0; i < word.length(); ++i) {
+        for (int i = 0; i < lowerword.length(); ++i) {
             char c = lowerword.charAt(i);
             if (!ite.next.containsKey(c)) {
                 ite.next.put(c, new TrieNode());
