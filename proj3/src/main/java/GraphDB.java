@@ -26,7 +26,7 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
     private Map<Long, Node> nodes;
-    private Map<Long, Node> namedLocation;
+    private Map<String, ArrayList<Node>> namedLocation;
     private Map<String, Edge> edges;
     private Trie locations;
 
@@ -207,8 +207,14 @@ public class GraphDB {
         return nodes.get(nodeID);
     }
 
-    public void addLocations(long nodeID, Node node) {
-        namedLocation.put(nodeID, node);
+    public void addLocations(String cleanName, Node node) {
+        if (namedLocation.get(cleanName) == null) {
+            ArrayList<Node> list = new ArrayList<>();
+            list.add(node);
+            namedLocation.put(cleanName, list);
+        } else {
+            namedLocation.get(cleanName).add(node);
+        }
     }
 
     public void addEdge(Long node1, Long node2, String speed, String name) {
@@ -240,10 +246,12 @@ public class GraphDB {
 
     private void createLocationTries() {
         locations = new Trie();
-        for (Node node : namedLocation.values()) {
-            String name = node.getLocationName();
-            if (name != null) {
-                locations.insert(name);
+        for (List<Node> nodes : namedLocation.values()) {
+            for (Node node : nodes) {
+                String name = node.getLocationName();
+                if (name != null) {
+                    locations.insert(name);
+                }
             }
         }
     }
@@ -256,7 +264,11 @@ public class GraphDB {
     public List<Map<String, Object>> getLocations(String location) {
         location = cleanString(location);
         List<Map<String, Object>> result = new ArrayList<>();
-        for (Node n : namedLocation.values()) {
+        List<Node> ns = namedLocation.get(location);
+        if (ns == null) {
+            return null;
+        }
+        for (Node n : ns) {
             String name = n.getLocationName();
             if (name.toLowerCase().equals(location)) {
                 Map<String, Object> map = new HashMap<>();

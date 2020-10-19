@@ -4,11 +4,12 @@ import java.util.List;
 
 public class Trie {
     class TrieNode {
-        String word;
+        ArrayList<String> words;
         boolean isWord = false;
         HashMap<Character, TrieNode> next;
 
         TrieNode() {
+            words = new ArrayList<>();
             next = new HashMap<>();
         }
     }
@@ -33,7 +34,12 @@ public class Trie {
             ite = ite.next.get(c);
         }
         ite.isWord = true;
-        ite.word = word;
+        for (String w : ite.words) {
+            if (w.equals(word)) {
+                return;
+            }
+        }
+        ite.words.add(word);
     }
 
     public boolean search(String word) {
@@ -77,7 +83,9 @@ public class Trie {
             return;
         }
         if (node.isWord) {
-            list.add(node.word);
+            for (String w : node.words) {
+                list.add(w);
+            }
         }
         HashMap<Character, TrieNode> possible = node.next;
         for (Character c : possible.keySet()) {

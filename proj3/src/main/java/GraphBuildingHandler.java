@@ -137,7 +137,7 @@ public class GraphBuildingHandler extends DefaultHandler {
 //            System.out.println("Node's name: " + attributes.getValue("v"));
             Node temp = g.getNode(lastNode);
             temp.setLocationName(name);
-            g.addLocations(lastNode, temp);
+            g.addLocations(GraphDB.cleanString(name), temp);
         }
     }
 
