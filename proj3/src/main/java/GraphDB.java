@@ -26,6 +26,7 @@ public class GraphDB {
      * creating helper classes, e.g. Node, Edge, etc.
      */
     private Map<Long, Node> nodes;
+    private Map<Long, Node> namedLocation;
     private Map<String, Edge> edges;
     private Trie locations;
 
@@ -45,14 +46,17 @@ public class GraphDB {
             SAXParser saxParser = factory.newSAXParser();
             nodes = new HashMap<>();
             edges = new HashMap<>();
+            namedLocation = new HashMap<>();
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
             saxParser.parse(inputStream, gbh);
             createLocationTries();
             //System.out.println(getLocationsByPrefix("m").toString());
+            //getLocations("Top Dog");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
         clean();
+        getLocations("Top Dog");
     }
 
     /**
@@ -203,6 +207,10 @@ public class GraphDB {
         return nodes.get(nodeID);
     }
 
+    public void addLocations(long nodeID, Node node) {
+        namedLocation.put(nodeID, node);
+    }
+
     public void addEdge(Long node1, Long node2, String speed, String name) {
         String edge = node1 + " " + node2;
         edges.put(edge, new Edge(node1, node2, speed, name));
@@ -232,7 +240,7 @@ public class GraphDB {
 
     private void createLocationTries() {
         locations = new Trie();
-        for (Node node : nodes.values()) {
+        for (Node node : namedLocation.values()) {
             String name = node.getLocationName();
             if (name != null) {
                 locations.insert(name);
@@ -243,5 +251,24 @@ public class GraphDB {
     public List<String> getLocationsByPrefix(String prefix) {
         prefix = cleanString(prefix);
         return locations.wordsStartWith(prefix);
+    }
+
+    public List<Map<String, Object>> getLocations(String location) {
+        location = cleanString(location);
+        List<Map<String, Object>> result = new ArrayList<>();
+        for (Node n : namedLocation.values()) {
+            String name = n.getLocationName();
+            if (name.toLowerCase().equals(location)) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", n.getId());
+                map.put("lon", n.getLon());
+                map.put("lat", n.getLat());
+                map.put("name", name);
+                result.add(map);
+                //System.out.println(n.getId());
+            }
+        }
+        System.out.println(result.size());
+        return result;
     }
 }
