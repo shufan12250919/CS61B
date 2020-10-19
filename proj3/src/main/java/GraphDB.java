@@ -50,13 +50,13 @@ public class GraphDB {
             GraphBuildingHandler gbh = new GraphBuildingHandler(this);
             saxParser.parse(inputStream, gbh);
             createLocationTries();
-            //System.out.println(getLocationsByPrefix("m").toString());
+            //System.out.println(getLocationsByPrefix("h").toString());
             //getLocations("Top Dog");
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
         clean();
-        //getLocations("Top Dog");
+        getLocations("dr kiyomoto optometrist");
     }
 
     /**
@@ -257,8 +257,9 @@ public class GraphDB {
         location = cleanString(location);
         List<Map<String, Object>> result = new ArrayList<>();
         for (Node n : namedLocation.values()) {
-            String name = n.getLocationName();
-            if (name.toLowerCase().equals(location)) {
+            String name = n.getLocationName().toLowerCase();
+            String cleanName = cleanString(name);
+            if (cleanName.equals(location)) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("id", n.getId());
                 map.put("lon", n.getLon());

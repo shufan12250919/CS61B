@@ -4,12 +4,13 @@ import java.util.List;
 
 public class Trie {
     class TrieNode {
-        String word;
+        ArrayList<String> words;
         boolean isWord = false;
         HashMap<Character, TrieNode> next;
 
         TrieNode() {
             next = new HashMap<>();
+            words = new ArrayList<>();
         }
     }
 
@@ -23,9 +24,9 @@ public class Trie {
         if (word == null || word.equals("")) {
             return;
         }
-        String lowerword = word.toLowerCase();
+        String lowerword = GraphDB.cleanString(word);
         TrieNode ite = root;
-        for (int i = 0; i < word.length(); ++i) {
+        for (int i = 0; i < lowerword.length(); ++i) {
             char c = lowerword.charAt(i);
             if (!ite.next.containsKey(c)) {
                 ite.next.put(c, new TrieNode());
@@ -33,7 +34,12 @@ public class Trie {
             ite = ite.next.get(c);
         }
         ite.isWord = true;
-        ite.word = word;
+        for (String w : ite.words) {
+            if (w.equals(word)) {
+                return;
+            }
+        }
+        ite.words.add(word);
     }
 
     public boolean search(String word) {
@@ -77,7 +83,9 @@ public class Trie {
             return;
         }
         if (node.isWord) {
-            list.add(node.word);
+            for (String w : node.words) {
+                list.add(w);
+            }
         }
         HashMap<Character, TrieNode> possible = node.next;
         for (Character c : possible.keySet()) {
