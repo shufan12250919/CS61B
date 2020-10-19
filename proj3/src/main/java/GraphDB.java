@@ -56,7 +56,7 @@ public class GraphDB {
             e.printStackTrace();
         }
         clean();
-        getLocations("Top Dog");
+        //getLocations("Top Dog");
     }
 
     /**
@@ -268,7 +268,7 @@ public class GraphDB {
                 //System.out.println(n.getId());
             }
         }
-        System.out.println(result.size());
+        //System.out.println(result.size());
         return result;
     }
 }
