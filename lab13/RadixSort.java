@@ -42,7 +42,7 @@ public class RadixSort {
         int[] counts = new int[257]; // extra space for empty char
         for (String s : asciis) {
             int c = 0;
-            if (index <= s.length()) {
+            if (index < s.length()) {
                 c = (int) s.charAt(s.length() - 1 - index) + 1;
             }
             counts[c]++;
@@ -58,7 +58,7 @@ public class RadixSort {
         String[] sort = new String[asciis.length];
         for (String s : asciis) {
             int c = 0;
-            if (index <= s.length()) {
+            if (index < s.length()) {
                 c = (int) s.charAt(s.length() - 1 - index) + 1;
             }
             sort[start[c]] = s;
